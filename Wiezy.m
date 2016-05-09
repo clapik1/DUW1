@@ -45,8 +45,8 @@ end
 
 rozwp = size(wp);
 for i=1:rozwp(1) % petla po wszystkich wymuszeniach w parach postepowych
-    [ri,~,Roti] = FromQ(q,os(rozwp(i,1),1));
-    [rj,~,Rotj] = FromQ(q,os(rozwp(i,1),2));
+    [ri,~,Roti] = FromQ(q,ps(rozwp(i,1),1));
+    [rj,~,Rotj] = FromQ(q,ps(rozwp(i,1),2));
     u = ps(rozwp(i,1),4:5)';
     sA = ps(rozwp(i,1),6:7)';
     sB = ps(rozwp(i,1),8:9);
