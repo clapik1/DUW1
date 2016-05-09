@@ -9,7 +9,7 @@ function F=Wiezy(q,t)
 %   F - wartosci funkcji.
 %
 
-F = zeros(length(q0),1);
+F = zeros(length(q),1);
 
 rozos = size(os);
 rozF = 1;
