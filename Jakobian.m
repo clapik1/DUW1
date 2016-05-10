@@ -29,7 +29,8 @@ for i=1:size(os, 1) % petla po wszystkich parach obrotowych
 end
 
 for i=1:size(ps, 1) % petla po wszystkich parach postepowych
-    v = ps(i,4:5)';
+    u = ps(i,4:5)';
+    v = [-u(2); u(1)];
     sA = ps(i,6:7)';
     [ri,~,Roti] = FromQ(q,ps(i,1));
     [rj,~,Rotj] = FromQ(q,ps(i,2));
@@ -57,17 +58,17 @@ for i=1:size(wo, 1) % petla po wszystkich wymuszeniach w parach obrotowych
 end
 
 for i=1:size(wp, 1) % petla po wszystkich wymuszeniach w parach postepowych
-    v = ps(wp(i,1),4:5)';
+    u = ps(wp(i,1),4:5)';
     sA = ps(wp(i,1),6:7)';
     [ri,~,Roti] = FromQ(q,ps(wp(i,1),1));
     [rj,~,Rotj] = FromQ(q,ps(wp(i,1),2));
     if ps(wp(i,1),1) ~= 0
         Fq(rozF,ps(wp(i,1),1)*3-2:ps(wp(i,1),1)*3-1) = -(Rotj * v)'; % 2.47
-        Fq(rozF,ps(wp(i,1),1)*3) = -(Rotj * v)' * Om * Roti * sA; % 2.48
+        Fq(rozF,ps(wp(i,1),1)*3) = -(Rotj * u)' * Om * Roti * sA; % 2.48
     end
     if ps(wp(i,1),2) ~= 0
         Fq(rozF,ps(wp(i,1),2)*3-2:ps(wp(i,1),2)*3-1) = (Rotj * v)'; % 2.49
-        Fq(rozF,ps(wp(i,1),2)*3) = -(Rotj * v)' * Om * (rj - ri - Roti * sA); % 2.50
+        Fq(rozF,ps(wp(i,1),2)*3) = -(Rotj * u)' * Om * (rj - ri - Roti * sA); % 2.50
     end
     rozF = rozF + 1;
 end

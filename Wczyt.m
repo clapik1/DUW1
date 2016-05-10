@@ -46,7 +46,7 @@ ilep=str2num(fgetl(p));
 ps=zeros(ilep, 9);
 for k=1:ilep
     tmp=str2num(fgetl(p));
-    %i j fi0 v punkt1 punkt2
+    %i j fi0 _____u______ punkt1 punkt2
     i=tmp(1); j=tmp(2);
     sA=[tmp(3); tmp(4)];
     sB=[tmp(5); tmp(6)];
@@ -72,10 +72,10 @@ for k=1:ilep
     Rotj=Rot(fij);
     ps(k, 8:9)=Rotj'*(sB-qj);
     
-    v=[sA(2)-sB(2); sB(1)-sA(1)];
-    v=v/norm(v);
-    v=Rotj'*v;
-    ps(k, 4:5)=v';
+    u=[sB(1)-sA(1); sB(2)-sA(2)];
+    u=u/norm(u);
+    u=Rotj'*u;
+    ps(k, 4:5)=u';
 end
 
 %czytaj wymuszenia obrotowe
