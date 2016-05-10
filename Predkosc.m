@@ -1,25 +1,27 @@
-function dq=Predkosc(q,t)
-% dq=Predkosc(q,t)
-%   Procedura do rozwi¹zywania zadania o prêdkoœci.
-%   Zadanie o po³o¿eniu musi byæ rozwi¹zane wczeœniej.
-% Wejœcie:
-%   q - wspó³rzêdne absolutne uk³adu wielocz³onowego,
-%   t - chwila, dla której poszukiwane jest rozwi¹zanie.
-% Wyjœcie:
-%   dq - obliczone pochodne wspó³rzêdnych absolutnych wzglêdem czasu.
+function dq = Predkosc(q, os, ps, wo, wp, t)
 %
-%*************************************************************
-%   Program stanowi za³¹cznik do ksi¹¿ki:
-%   Fr¹czek J., Wojtyra M.: Kinematyka uk³adów wielocz³onowych.
-%                           Metody obliczeniowe. WNT 2007.
-%   Wersja 1.0
-%*************************************************************
+%   Procedura do rozwiï¿½zywania zadania o prï¿½dkoï¿½ci.
+%   Zadanie o poï¿½oï¿½eniu musi byï¿½ rozwiï¿½zane wczeï¿½niej.
+% Wejï¿½cie:
+%   q - wspï¿½rzï¿½dne absolutne ukï¿½adu wieloczï¿½onowego,
+%   t - chwila, dla ktï¿½rej poszukiwane jest rozwiï¿½zanie.
+% Wyjï¿½cie:
+%   dq - obliczone pochodne wspï¿½rzï¿½dnych absolutnych wzglï¿½dem czasu.
+%
 
-% Prawa strona uk³adu równañ liniowych - pochodne wiêzów wzglêdem czasu.
-Ft=[zeros(8,1);-2*t];
+Ft = zeros(size(q, 1), 1);
 
-% Macierz uk³adu równañ
-Fq=Jakobian(q);
+ind = 2 * (size(os, 1) + size(ps, 1)) + 1;
 
-% Obliczenie prêdkoœci
-dq=-Fq\Ft;
+for i=1:size(wo,1)
+    Ft(ind, 1) = -DWymuszenie(wo(i, 2), t);
+    ind = ind+1;
+end
+
+for i=1:size(wp,1)
+    Ft(ind, 1) = -DWymuszenie(wp(i, 2), t);
+    ind=ind+1;
+end
+
+Fq = Jakobian(q, os, ps, wo, wp);
+dq = -Fq \ Ft;

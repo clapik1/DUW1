@@ -9,22 +9,23 @@ function [T, Q, DQ, D2Q] = DUW1()
 %   D2Q - tablica do zapisu rozwiazan zad. o przyspieszeniu w kolejnych chwilach.
 %
 
-[q0, os, ps, wo, wp] = Wczyt();
+[q, os, ps, wo, wp] = Wczyt();
 
-q = q0;
 lroz = 0;
 dt = 0.05;
+dq = zeros(length(q), 1);
+d2q = zeros(length(q), 1);
 
 s = 1.5 / dt + 1;
 T = zeros(1, s);
-Q = zeros(length(q0), s);
-DQ = zeros(length(q0), s);
-D2Q = zeros(length(q0), s);
+Q = zeros(length(q), s);
+DQ = zeros(length(q), s);
+D2Q = zeros(length(q), s);
 
 for t = 0:dt:1.5
     % Przyblizeniem poczatkowym jest rozwiazanie z poprzedniej chwili, 
     % powiekszone o skladniki wynikajace z obliczonej predkosci i przyspieszenia.
-    % q = q + dq * dt + 0.5 * d2q * dt^2;
+    q = q + dq * dt + 0.5 * d2q * dt^2;
     q = NewRaph(q, os, ps, wo, wp, t); 
     dq = Predkosc(q, os, ps, wo, wp, t);
     d2q = Przyspieszenie(dq, q, os, ps, wo, wp, t);

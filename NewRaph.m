@@ -16,7 +16,6 @@ iter = 1;
 while norm(F) > 1e-10 && iter < 25
     F = Wiezy(q, os, ps, wo, wp, t);
     Fq = Jakobian(q, os, ps, wo, wp);
-    disp(Fq);
     q = q - Fq \ F;
     iter = iter + 1;
 end
