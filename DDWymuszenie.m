@@ -9,6 +9,10 @@ switch indeks
         ddf = 0;
     case 4
         ddf = -2;
+    case 5
+        ddf= 0;
+    case 6
+        ddf= 0;
     otherwise
         disp('fatal error in DDWymuszenie.m')
 end

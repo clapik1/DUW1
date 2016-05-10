@@ -63,11 +63,11 @@ for i=1:size(wp, 1) % petla po wszystkich wymuszeniach w parach postepowych
     [ri,~,Roti] = FromQ(q,ps(wp(i,1),1));
     [rj,~,Rotj] = FromQ(q,ps(wp(i,1),2));
     if ps(wp(i,1),1) ~= 0
-        Fq(rozF,ps(wp(i,1),1)*3-2:ps(wp(i,1),1)*3-1) = -(Rotj * v)'; % 2.47
+        Fq(rozF,ps(wp(i,1),1)*3-2:ps(wp(i,1),1)*3-1) = -(Rotj * u)'; % 2.47
         Fq(rozF,ps(wp(i,1),1)*3) = -(Rotj * u)' * Om * Roti * sA; % 2.48
     end
     if ps(wp(i,1),2) ~= 0
-        Fq(rozF,ps(wp(i,1),2)*3-2:ps(wp(i,1),2)*3-1) = (Rotj * v)'; % 2.49
+        Fq(rozF,ps(wp(i,1),2)*3-2:ps(wp(i,1),2)*3-1) = (Rotj * u)'; % 2.49
         Fq(rozF,ps(wp(i,1),2)*3) = -(Rotj * u)' * Om * (rj - ri - Roti * sA); % 2.50
     end
     rozF = rozF + 1;

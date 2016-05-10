@@ -9,6 +9,10 @@ switch indeks
         df = -3/180*pi;
     case 4
         df = -2*t;
+    case 5
+        df= -1;
+    case 6
+        df= 0;    
     otherwise
         disp('fatal error in DWymuszenie.m')
 end

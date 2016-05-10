@@ -11,6 +11,10 @@ switch indeks
         f = -3/180*pi*t;
     case 4
         f = -t^2 - pi/2;
+    case 5
+        f= 4 - t;
+    case 6
+        f= -4;
     otherwise
         disp('fatal error in Wymuszenie.m')
 end
