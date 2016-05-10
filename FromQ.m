@@ -1,4 +1,5 @@
-function [r,fi,Roti] = FromQ(q, i)
+function [r, fi, Roti] = FromQ(q, i)
+
 if i == 0 % jezeli indeks mowi, ze chodzi o podstawe to przypisz zera do zmiennych
     r = [0; 0];
     fi = 0;

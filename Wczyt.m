@@ -1,7 +1,9 @@
+function [q0, os, ps, wo, wp] = Wczyt()
+
 %wczyt danych
-c = fopen('ciala.txt', 'r');
-p = fopen('pary.txt', 'r');
-w = fopen('wymuszenia.txt', 'r');
+c = fopen('dane/ciala.txt', 'r');
+p = fopen('dane/pary.txt', 'r');
+w = fopen('dane/wymuszenia.txt', 'r');
 
 %czytaj ciala
 ilec=str2num(fgetl(c));
