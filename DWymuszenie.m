@@ -2,9 +2,9 @@ function df=DWymuszenie(indeks,t)
 
 switch indeks
     case 1
-        df = 0.2/20 * cos(t/20);
+        df = -0.2/20 * cos(t/20);
     case 2
-        df = 0.1/10 * cos(t/10);
+        df = -0.1/10 * cos(t/10);
     case 3
         df = -3/180*pi;
     case 4
