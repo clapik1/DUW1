@@ -74,7 +74,7 @@ for k=1:size(wp,1) %petla po wszystkich wymuszeniach postepowych
     [dri,dfii,~]=FromQ(dq,i);
     [drj,dfij,~]=FromQ(dq,j);
     
-    gam(ind, 1) = (Rotj * u)'*(2 * Om * (drj - dri) * dfij + (rj - ri) * dfij^2 - Roti * sA * (dfij - dfii)^2 ) - DDWymuszenie(wp(k, 2), t); % ... wzor (2.57) + pochodna wymuszenia
+    gam(ind, 1) = (Rotj * u)'*(2 * Om * (drj - dri) * dfij + (rj - ri) * dfij^2 - Roti * sA * (dfij - dfii)^2 ) + DDWymuszenie(wp(k, 2), t); % ... wzor (2.57) + pochodna wymuszenia
     
     ind = ind + 1;
 end

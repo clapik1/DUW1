@@ -1,14 +1,15 @@
-function [q0, os, ps, wo, wp] = Wczyt()
+function [q0, os, ps, wo, wp, de] = Wczyt()
 
 %wczyt danych
 c = fopen('dane/ciala.txt', 'r');
 p = fopen('dane/pary.txt', 'r');
 w = fopen('dane/wymuszenia.txt', 'r');
+d = fopen('dane/doexportu.txt', 'r');
 
 %czytaj ciala
 ilec=str2num(fgetl(c));
 for i=1:ilec
-    q0([3*(i-1)+1:3*i])=str2num(fgetl(c));
+    q0(3*(i-1)+1:3*i)=str2num(fgetl(c));
 end
 q0=q0';
 
@@ -23,7 +24,7 @@ for k=1:ileo
     if(i==0)
         qi=[0;0]; fii=0;
     else
-        qi=q0([3*i-2:3*i-1]);  fii=q0(3*i);
+        qi=q0(3*i-2:3*i-1);  fii=q0(3*i);
     end
        
     if(j==0)
@@ -54,7 +55,7 @@ for k=1:ilep
     if(i==0)
         qi=[0;0]; fii=0;
     else
-        qi=q0([3*i-2:3*i-1]);  fii=q0(3*i);
+        qi=q0(3*i-2:3*i-1);  fii=q0(3*i);
     end
        
     if(j==0)
@@ -90,4 +91,22 @@ ilewp=str2num(fgetl(w));
 wp=zeros(ilewp, 2);
 for k=1:ilewp
     wp(k,:)=str2num(fgetl(w));
+end
+
+%czytaj co eksportowac
+ilepun=str2num(fgetl(d));
+de=zeros(ilepun, 3);
+for k=1:ilepun
+    tmp=str2num(fgetl(d));
+   
+    i=tmp(1);
+    de(k, 1)=i;
+    
+    s=[tmp(2); tmp(3)];
+    
+    qi=q0(3*i-2:3*i-1);
+    fii=q0(3*i);
+    
+    Roti=Rot(fii);
+    de(k, 2:3)=Roti'*(s-qi);
 end
