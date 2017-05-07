@@ -1,4 +1,4 @@
-function [q0, os, ps, wo, wp, de] = Wczyt()
+function [q0, m, os, ps, ws, wst, de] = Wczyt()
 
 %wczyt danych
 c = fopen('dane/ciala.txt', 'r');
@@ -9,7 +9,9 @@ d = fopen('dane/doexportu.txt', 'r');
 %czytaj ciala
 ilec=str2num(fgetl(c));
 for i=1:ilec
-    q0(3*(i-1)+1:3*i)=str2num(fgetl(c));
+    tmp = str2num(fgetl(c));
+    q0(3*(i-1)+1:3*i)=tmp(1:3);
+    m(i, 1:2)=tmp(4:5);
 end
 q0=q0';
 
@@ -79,18 +81,58 @@ for k=1:ilep
     ps(k, 4:5)=u';
 end
 
-%czytaj wymuszenia obrotowe
-ilewo=str2num(fgetl(w));
-wo=zeros(ilewo, 2);
-for k=1:ilewo
-    wo(k,:)=str2num(fgetl(w));
+%czytaj przylozone sily
+ilews=str2num(fgetl(w));
+ws=zeros(ilews, 5); %i x_i y_i F_x F_y
+for k=1:ilews
+    tmp=str2num(fgetl(w)); %i x_w_glob y_w_glob F fi_F
+    
+    i=tmp(1);
+    s=[tmp(2); tmp(3)];
+    F=[tmp(4) 0]'; fi_F=deg2rad(tmp(5));
+    
+    ws(k, 1)=i;
+    
+    qi=q0(3*i-2:3*i-1);  fii=q0(3*i);
+    
+    Roti=Rot(fii);
+    ws(k, 2:3)=Roti'*(s-qi);
+    
+    ws(k, 4:5)=Rot(fi_F)*F;
 end
 
-%czytaj wymuszenia postepowe
-ilewp=str2num(fgetl(w));
-wp=zeros(ilewp, 2);
-for k=1:ilewp
-    wp(k,:)=str2num(fgetl(w));
+%czytaj elementy sprezysto tlumiace
+ilewst=str2num(fgetl(w));
+wst=zeros(ilewst, 9); %i j x_i y_i x_j y_j spr l0 tlum
+for k=1:ilewst
+    tmp=str2num(fgetl(w));
+    
+    i=tmp(1); j=tmp(2);
+    sA=[tmp(3); tmp(4)];
+    sB=[tmp(5); tmp(6)];
+    spr=tmp(7); tlum=tmp(8);
+    
+    if(i==0)
+        qi=[0;0]; fii=0;
+    else
+        qi=q0(3*i-2:3*i-1);  fii=q0(3*i);
+    end
+       
+    if(j==0)
+        qj=[0;0]; fij=0;
+    else
+        qj=q0([3*j-2:3*j-1]); fij=q0(3*j);
+    end
+    
+    wst(k, 1:2)=[i j];
+    
+    Roti=Rot(fii);
+    wst(k, 3:4)=Roti'*(sA-qi);
+    
+    Rotj=Rot(fij);
+    wst(k, 5:6)=Rotj'*(sB-qj);
+    
+    wst(k, 7:9)=[spr norm(sB-sA) tlum]';
 end
 
 %czytaj co eksportowac

@@ -67,13 +67,13 @@ for t = 0:dt:30
     T(:, lroz) = t; 
     Q(:, lroz) = q;
     DQ(:, lroz) = dq;
-    D2Q(:, lroz) = d2q;
+    D2Q(:, lroz) = ddq;
     
     for i = 1:size(de, 1)
         sA = de(i,2:3)';
         [ri,~,Roti] = FromQ(q, de(i, 1));
         [dri,dfii,~] = FromQ(dq, de(i, 1));
-        [ddri,ddfii,~] = FromQ(d2q, de(i, 1));
+        [ddri,ddfii,~] = FromQ(ddq, de(i, 1));
         EXPQ(i*6-5:i*6-4, lroz) = ri + Roti * sA;
         EXPQ(i*6-3:i*6-2, lroz) = dri + Om * Roti * sA * dfii;
         EXPQ(i*6-1:i*6, lroz) = ddri + Om * Roti * sA * ddfii - Roti * sA * dfii^2;

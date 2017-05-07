@@ -1,4 +1,4 @@
-function Fq = Jakobian(q, os, ps, wo, wp)
+function Fq = Jakobian(q, os, ps)
 %
 %   Procedura wspolpracujaca z NewRaph.
 %   Sluzy do obliczania macierzy Jacobiego rownan wiezow.
@@ -9,7 +9,7 @@ function Fq = Jakobian(q, os, ps, wo, wp)
 %
 
 Om = [0 -1; 1 0];
-Fq = zeros(length(q),length(q));
+Fq = zeros(2 * (size(os,1) + size(ps,1)),length(q));
 rozF = 1;
 
 for i=1:size(os, 1) % petla po wszystkich parach obrotowych
@@ -47,28 +47,28 @@ for i=1:size(ps, 1) % petla po wszystkich parach postepowych
     rozF = rozF + 2;
 end
 
-for i=1:size(wo, 1) % petla po wszystkich wymuszeniach w parach obrotowych
-    if os(wo(i,1),1) ~= 0
-        Fq(rozF,os(wo(i,1),1)*3) = 1; % 2.42
-    end
-    if os(wo(i,1),2) ~= 0
-        Fq(rozF,os(wo(i,1),2)*3) = -1; % 2.44
-    end
-    rozF = rozF + 1;
-end
+% for i=1:size(wo, 1) % petla po wszystkich wymuszeniach w parach obrotowych
+%     if os(wo(i,1),1) ~= 0
+%         Fq(rozF,os(wo(i,1),1)*3) = 1; % 2.42
+%     end
+%     if os(wo(i,1),2) ~= 0
+%         Fq(rozF,os(wo(i,1),2)*3) = -1; % 2.44
+%     end
+%     rozF = rozF + 1;
+% end
 
-for i=1:size(wp, 1) % petla po wszystkich wymuszeniach w parach postepowych
-    u = ps(wp(i,1),4:5)';
-    sA = ps(wp(i,1),6:7)';
-    [ri,~,Roti] = FromQ(q,ps(wp(i,1),1));
-    [rj,~,Rotj] = FromQ(q,ps(wp(i,1),2));
-    if ps(wp(i,1),1) ~= 0
-        Fq(rozF,ps(wp(i,1),1)*3-2:ps(wp(i,1),1)*3-1) = -(Rotj * u)'; % 2.47
-        Fq(rozF,ps(wp(i,1),1)*3) = -(Rotj * u)' * Om * Roti * sA; % 2.48
-    end
-    if ps(wp(i,1),2) ~= 0
-        Fq(rozF,ps(wp(i,1),2)*3-2:ps(wp(i,1),2)*3-1) = (Rotj * u)'; % 2.49
-        Fq(rozF,ps(wp(i,1),2)*3) = -(Rotj * u)' * Om * (rj - ri - Roti * sA); % 2.50
-    end
-    rozF = rozF + 1;
-end
+% for i=1:size(wp, 1) % petla po wszystkich wymuszeniach w parach postepowych
+%     u = ps(wp(i,1),4:5)';
+%     sA = ps(wp(i,1),6:7)';
+%     [ri,~,Roti] = FromQ(q,ps(wp(i,1),1));
+%     [rj,~,Rotj] = FromQ(q,ps(wp(i,1),2));
+%     if ps(wp(i,1),1) ~= 0
+%         Fq(rozF,ps(wp(i,1),1)*3-2:ps(wp(i,1),1)*3-1) = -(Rotj * u)'; % 2.47
+%         Fq(rozF,ps(wp(i,1),1)*3) = -(Rotj * u)' * Om * Roti * sA; % 2.48
+%     end
+%     if ps(wp(i,1),2) ~= 0
+%         Fq(rozF,ps(wp(i,1),2)*3-2:ps(wp(i,1),2)*3-1) = (Rotj * u)'; % 2.49
+%         Fq(rozF,ps(wp(i,1),2)*3) = -(Rotj * u)' * Om * (rj - ri - Roti * sA); % 2.50
+%     end
+%     rozF = rozF + 1;
+% end
